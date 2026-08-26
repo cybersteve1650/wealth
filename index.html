@@ -73,8 +73,9 @@ body.lang-ja .eyebrow{letter-spacing:.06em}
 
 /* ===================== BASE ===================== */
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
-html,body{overflow-x:hidden; max-width:100%}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth; scroll-padding-top:104px}
+/* clip, not hidden. "hidden" creates a scroll container and breaks position:sticky. */
+html,body{overflow-x:clip; max-width:100%}
 body{
   margin:0; font-family:var(--font); color:var(--navy);
   background:var(--white); font-size:17px; line-height:1.6;
@@ -115,43 +116,45 @@ section.dark h4{color:var(--ocean)}
 .hero .wrap{position:relative; z-index:1}
 
 /* ===================== STICKY NAV + LANGUAGE SWITCH ===================== */
-nav{
-  position:sticky; top:0; z-index:50; background:var(--white);
-  border-bottom:1px solid var(--concrete);
+/* ===================== STICKY HEADER ===================== */
+.sticky{position:sticky; top:0; z-index:50}
+
+/* Row 1: brand bar with language switch */
+.brandbar{background:var(--white); border-bottom:1px solid var(--concrete)}
+.brandbar .navinner{
+  max-width:760px; margin:0 auto; padding:12px var(--pad);
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
 }
-.navinner{
-  max-width:760px; margin:0 auto;
-  display:flex; align-items:center;
+.brand{font-size:15px; font-weight:700; letter-spacing:.04em; color:var(--navy); white-space:nowrap}
+.brand span.mark{color:var(--red)}
+.langswitch{flex:0 0 auto; display:flex; gap:4px; align-items:center}
+.langswitch button{
+  font-family:var(--font); font-size:13px; font-weight:700; cursor:pointer;
+  color:var(--navy); background:var(--white);
+  border:2px solid var(--concrete); border-radius:99px; padding:5px 12px;
 }
+.langswitch button[aria-pressed="true"]{background:var(--navy); border-color:var(--navy); color:var(--white)}
+.langswitch button:focus-visible{outline:3px solid var(--monday); outline-offset:2px}
+
+/* Row 2: section chips */
+nav{background:var(--sand); border-bottom:1px solid var(--concrete)}
+nav .navinner{max-width:760px; margin:0 auto; display:flex; align-items:center}
 nav ul{
   flex:1 1 auto; min-width:0;
-  display:flex; gap:8px; list-style:none; margin:0; padding:10px 8px 10px var(--pad);
+  display:flex; gap:8px; list-style:none; margin:0; padding:10px var(--pad);
   overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none;
 }
 nav ul::-webkit-scrollbar{display:none}
 nav ul a{
   display:block; white-space:nowrap; text-decoration:none;
   font-size:13px; font-weight:700; color:var(--navy);
-  background:var(--concrete); padding:7px 13px; border-radius:99px;
+  background:var(--white); padding:8px 14px; border-radius:99px;
 }
-nav ul a:hover{background:var(--sand); text-decoration:none}
+nav ul a:hover{background:var(--navy); color:var(--white); text-decoration:none}
 @media(min-width:800px){
   nav ul{gap:6px}
-  nav ul a{padding:7px 11px}
+  nav ul a{padding:8px 12px}
 }
-.langswitch{
-  flex:0 0 auto; display:flex; gap:4px; align-items:center;
-  padding:10px var(--pad) 10px 10px; background:var(--white);
-  border-left:1px solid var(--concrete);
-}
-.langswitch button{
-  font-family:var(--font); font-size:13px; font-weight:700; cursor:pointer;
-  color:var(--navy); background:var(--white);
-  border:2px solid var(--concrete); border-radius:99px; padding:5px 11px;
-}
-.langswitch button[aria-pressed="true"]{background:var(--navy); border-color:var(--navy); color:var(--white)}
-.langswitch button:focus-visible{outline:3px solid var(--monday); outline-offset:2px}
-
 /* ===================== SECTIONS ===================== */
 section{padding:44px 0; border-top:1px solid var(--concrete)}
 section:first-of-type{border-top:0}
@@ -194,7 +197,8 @@ section.dark .partner .role{color:var(--ocean)}
 .btn:hover{background:var(--navy); text-decoration:none}
 .btn.alt{background:var(--navy)}
 .btn.alt:hover{background:var(--red)}
-section.dark .btn{color:var(--white)}
+/* Buttons keep white text everywhere, including inside dark cards. */
+section.dark .btn,.card.navy .btn,.card.red .btn,.card.deep .btn,.card.note .btn{color:var(--white)}
 
 /* ===================== BIG NUMBERS ===================== */
 .figure{font-size:40px; font-weight:700; line-height:1.05; letter-spacing:-.02em; display:block}
@@ -283,14 +287,11 @@ footer a{color:var(--ocean)}
   <div class="blot blot-a"></div>
   <div class="blot blot-b"></div>
   <div class="wrap">
-    <p class="eyebrow" data-lang="en">A practical guide for high earners in Japan</p>
-    <p class="eyebrow" data-lang="ja">日本の高所得者のための実践ガイド</p>
-
     <h1 data-lang="en">Building wealth in Japan</h1>
     <h1 data-lang="ja">日本での資産形成</h1>
 
-    <p class="lede" style="color:var(--sand)" data-lang="en">Six legal ways to reduce your tax and grow your assets, with the people and tools I use myself.</p>
-    <p class="lede" style="color:var(--sand)" data-lang="ja">税負担を減らし、資産を増やすための6つの合法的な方法。私自身が使っている専門家やツールも紹介します。</p>
+    <p class="lede" style="color:var(--sand)" data-lang="en">Six legal ways for high income earners to reduce your tax and grow your assets, with the people and tools I use myself.</p>
+    <p class="lede" style="color:var(--sand)" data-lang="ja">高所得者が税負担を減らし、資産を増やすための6つの合法的な方法。私自身が使っている専門家やツールも紹介します。</p>
 
     <!-- LAST UPDATED (1 of 2) -->
     <p class="byline" data-lang="en"><b>Steven Li</b> &nbsp;&middot;&nbsp; Last updated August 2026</p>
@@ -298,25 +299,37 @@ footer a{color:var(--ocean)}
   </div>
 </header>
 
-<!-- ============================ NAV + LANGUAGE SWITCH ============================ -->
-<nav>
-  <div class="navinner">
-  <ul>
-    <li><a href="#idea"><span data-lang="en">The idea</span><span data-lang="ja">考え方</span></a></li>
-    <li><a href="#property"><span data-lang="en">Property</span><span data-lang="ja">不動産</span></a></li>
-    <li><a href="#angel"><span data-lang="en">Angel fund</span><span data-lang="ja">エンジェル投資</span></a></li>
-    <li><a href="#dependents"><span data-lang="en">Dependents</span><span data-lang="ja">扶養控除</span></a></li>
-    <li><a href="#nisa"><span data-lang="en">NISA</span><span data-lang="ja">NISA</span></a></li>
-    <li><a href="#furusato"><span data-lang="en">Furusato nozei</span><span data-lang="ja">ふるさと納税</span></a></li>
-    <li><a href="#pr"><span data-lang="en">Residence</span><span data-lang="ja">永住権</span></a></li>
-    <li><a href="#plan"><span data-lang="en">Your plan</span><span data-lang="ja">まとめ</span></a></li>
-  </ul>
-  <div class="langswitch" role="group" aria-label="Language / 言語">
-    <button type="button" data-setlang="en" aria-pressed="true">EN</button>
-    <button type="button" data-setlang="ja" aria-pressed="false">日本語</button>
+<!-- ============================ STICKY HEADER ============================ -->
+<div class="sticky">
+
+  <div class="brandbar">
+    <div class="navinner">
+      <div class="brand">
+        <span class="mark">&#9679;</span> <span data-lang="en">BUILDING WEALTH IN JAPAN</span><span data-lang="ja">日本での資産形成</span>
+      </div>
+      <div class="langswitch" role="group" aria-label="Language">
+        <button type="button" data-setlang="en" aria-pressed="true">EN</button>
+        <button type="button" data-setlang="ja" aria-pressed="false">日本語</button>
+      </div>
+    </div>
   </div>
-  </div>
-</nav>
+
+  <nav>
+    <div class="navinner">
+      <ul>
+        <li><a href="#idea"><span data-lang="en">Start here</span><span data-lang="ja">はじめに</span></a></li>
+        <li><a href="#property"><span data-lang="en">Property</span><span data-lang="ja">不動産</span></a></li>
+        <li><a href="#angel"><span data-lang="en">Angel fund</span><span data-lang="ja">エンジェル投資</span></a></li>
+        <li><a href="#dependents"><span data-lang="en">Dependents</span><span data-lang="ja">扶養控除</span></a></li>
+        <li><a href="#nisa"><span data-lang="en">NISA</span><span data-lang="ja">NISA</span></a></li>
+        <li><a href="#furusato"><span data-lang="en">Furusato</span><span data-lang="ja">ふるさと納税</span></a></li>
+        <li><a href="#pr"><span data-lang="en">Residence</span><span data-lang="ja">永住権</span></a></li>
+        <li><a href="#plan"><span data-lang="en">Your plan</span><span data-lang="ja">まとめ</span></a></li>
+      </ul>
+    </div>
+  </nav>
+
+</div>
 
 <!-- ============================ THE IDEA + CALCULATOR ============================ -->
 <section id="idea">
@@ -392,11 +405,16 @@ footer a{color:var(--ocean)}
       <p class="small" data-lang="en"><b>Book a time through her Calendly and mention my name to be prioritised.</b></p>
       <p class="small" data-lang="ja"><b>Calendlyから予約し、私の名前を伝えると優先的に対応してもらえます。</b></p>
 
-      <a class="btn" href="https://calendly.com/xwang-post-lintel/30min?utm_campaign=1" target="_blank" rel="noopener"><span data-lang="en">Book a call with Xuling</span><span data-lang="ja">Xulingに相談する</span></a>
+      <a class="btn" href="https://calendly.com/xwang-post-lintel/30min" target="_blank" rel="noopener"><span data-lang="en">Book a 30 minute call with Xuling</span><span data-lang="ja">Xulingと30分の面談を予約する</span></a>
       <a class="btn alt" href="https://www.linkedin.com/in/xulingwang/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
 
-      <!-- PRIVATE LINK. Delete this block to hide the client presentation. -->
-      <p class="small" style="margin-top:14px"><a href="https://drive.google.com/file/d/1sBuHr8KBKUZK-F9-WUcCaxxouia6j6CG/view" target="_blank" rel="noopener"><span data-lang="en">Client presentation v2.5</span><span data-lang="ja">顧客向け資料 v2.5</span></a></p>
+    <div class="card navy" style="text-align:center; padding:26px 22px">
+      <h3 data-lang="en">Want the detail on property?</h3>
+      <h3 data-lang="ja">不動産についてもっと詳しく</h3>
+      <p class="small" style="color:var(--sand)" data-lang="en">A full guide to buying investment property in Japan: costs, financing, and what to look for.</p>
+      <p class="small" style="color:var(--sand)" data-lang="ja">日本での投資用不動産の購入について、費用、融資、物件選びのポイントをまとめたガイドです。</p>
+      <a class="btn" href="https://cybersteve1650.github.io/property/" style="margin-top:6px; background:var(--red)"><span data-lang="en">Read the property guide</span><span data-lang="ja">不動産ガイドを読む</span></a>
     </div>
 
     <h4 data-lang="en">What she looks for</h4>
@@ -810,48 +828,6 @@ footer a{color:var(--ocean)}
       <div data-lang="en"><b>Permanent residence</b><span class="desc">100% loans and more lenders</span><em>Apply as early as you qualify</em></div>
       <div data-lang="ja"><b>永住権</b><span class="desc">100%融資と選べる銀行の増加</span><em>要件を満たしたら早めに申請</em></div>
     </div></div>
-  </div>
-</section>
-
-<!-- ============================ OTHER GUIDES ============================ -->
-<section id="guides">
-  <div class="wrap">
-    <p class="eyebrow" data-lang="en">Other guides</p>
-    <p class="eyebrow" data-lang="ja">その他のガイド</p>
-
-    <h2 data-lang="en">More from me</h2>
-    <h2 data-lang="ja">他のガイド</h2>
-
-    <div class="partner">
-      <p class="role" data-lang="en">For cyber security professionals</p>
-      <p class="role" data-lang="ja">サイバーセキュリティ人材の方へ</p>
-
-      <h3 data-lang="en">Changing jobs in Japan</h3>
-      <h3 data-lang="ja">日本での転職ガイド</h3>
-
-      <p class="small" data-lang="en">A four step checklist for cyber security professionals thinking about a move.</p>
-      <p class="small" data-lang="ja">転職を考えているサイバーセキュリティ人材のための4ステップのチェックリストです。</p>
-
-      <!-- If you keep the repository name CandidateGuide.html, change the
-           address below to https://cybersteve1650.github.io/CandidateGuide.html/ -->
-      <a class="btn" href="https://cybersteve1650.github.io/candidate-guide/"><span data-lang="en">Read the candidate guide</span><span data-lang="ja">転職ガイドを読む</span></a>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ CONCLUSION ============================ -->
-<section class="dark">
-  <div class="wrap">
-    <p class="eyebrow" data-lang="en">Conclusion</p>
-    <p class="eyebrow" data-lang="ja">おわりに</p>
-
-    <h2 data-lang="en">Tell me what helped</h2>
-    <h2 data-lang="ja">感想を聞かせてください</h2>
-
-    <p data-lang="en">If you read this guide to the end, please drop me a note with what you found useful. That feedback is what improves the next version.</p>
-    <p data-lang="ja">最後まで読んでいただけたら、役に立った点をぜひ教えてください。次の版の改善に使わせていただきます。</p>
-
-    <div class="card red"><p><b>Steven Li</b></p></div>
   </div>
 </section>
 
